@@ -5,12 +5,52 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Nunito', system-ui, sans-serif; background: #FDF8F3; color: #2D3B2D; -webkit-font-smoothing: antialiased; }
 
-@keyframes ekgScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* EKG trace animation — draws the line like a real heart monitor */
+@keyframes ekgTrace {
+  0% { stroke-dashoffset: 4200; }
+  100% { stroke-dashoffset: 0; }
 }
-.ekg-animate { animation: ekgScroll 8s linear infinite; }
-.ekg-animate-slow { animation: ekgScroll 12s linear infinite; }
 
-@keyframes pulse { 0%,100%{opacity:0.08} 50%{opacity:0.15} }
-.ekg-pulse { animation: pulse 1.5s ease-in-out infinite; }
+@keyframes ekgFade {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.ekg-line {
+  stroke-dasharray: 4200;
+  stroke-dashoffset: 4200;
+  animation: ekgTrace 4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.ekg-line-slow {
+  stroke-dasharray: 4200;
+  stroke-dashoffset: 4200;
+  animation: ekgTrace 4s cubic-bezier(0.37, 0, 0.63, 1) 0.3s infinite;
+}
+
+/* Glowing dot that follows the trace */
+@keyframes ekgDot {
+  0% { transform: translateX(-100%); opacity: 0; }
+  2% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.ekg-dot {
+  animation: ekgDot 4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+/* Heart pulse on the BPM widget */
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.1); }
+  60% { transform: scale(1); }
+}
+
+.heart-pulse {
+  animation: heartPulse 1.5s ease-in-out infinite;
+}
