@@ -48,7 +48,7 @@ export default function HomePage() {
       </nav>
 
       {/* ── Hero with animated EKG + real image ── */}
-      <section style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", minHeight: 620, position: "relative", paddingInline: 80, overflow: "hidden", background: "linear-gradient(135deg, #FCF5EE 0%, #E8C9A8 40%, #C4956C 100%)" }}>
+      <section style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%", minHeight: 620, position: "relative", paddingInline: 80, overflow: "hidden", background: "linear-gradient(135deg, #FCF5EE 0%, #E8C9A8 40%, #C4956C 100%)" }}>
 
         {/* EKG trace layer — draws like a real heart monitor */}
         <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", alignItems: "center", overflow: "hidden", pointerEvents: "none" }}>
