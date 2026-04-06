@@ -2,26 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', system-ui, sans-serif; background: #FDF8F3; color: #2D3B2D; -webkit-font-smoothing: antialiased; }
 
-:root {
-  --bg: #080c14;
-  --surface: #0f1923;
-  --border: #1e2d40;
-  --gold: #e8a020;
-  --red: #ff2020;
-  --green: #00d46a;
-  --text: #e8eaf0;
-  --muted: #6b7a8d;
+@keyframes ekgScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
+.ekg-animate { animation: ekgScroll 8s linear infinite; }
+.ekg-animate-slow { animation: ekgScroll 12s linear infinite; }
 
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-}
-
-::selection {
-  background: rgba(232, 160, 32, 0.3);
-}
+@keyframes pulse { 0%,100%{opacity:0.08} 50%{opacity:0.15} }
+.ekg-pulse { animation: pulse 1.5s ease-in-out infinite; }
