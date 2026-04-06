@@ -77,15 +77,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* BPM widget */}
-        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-          <div style={{ backgroundColor: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", borderRadius: 24, padding: "24px 40px", border: "1px solid rgba(196,114,95,0.15)", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 12px 40px rgba(0,0,0,0.06)" }}>
-            <div className="heart-pulse"><HeartSvg size={28} color="#E8793A" fill="#E8793A" /></div>
-            <span style={{ fontSize: 48, fontWeight: 800, color: "#E8793A", lineHeight: 1 }}>72</span>
-            <span style={{ fontSize: 16, color: "#8A9B8A", fontWeight: 500 }}>BPM</span>
-          </div>
-          <span style={{ fontSize: 13, color: "rgba(74,85,104,0.7)", fontWeight: 500 }}>Echtzeit-Überwachung aktiv</span>
-        </div>
+
       </section>
 
       {/* ── Warum Notra 24 ── */}
