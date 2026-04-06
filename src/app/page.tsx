@@ -52,10 +52,10 @@ export default function HomePage() {
 
         {/* EKG trace layer — draws like a real heart monitor */}
         <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", alignItems: "center", overflow: "hidden", pointerEvents: "none" }}>
-          <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.12 }}>
+          <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.18 }}>
             <path className="ekg-line" d={EKG_PATH} stroke="#E8793A" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.05 }}>
+          <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.09 }}>
             <path className="ekg-line-slow" d={EKG_PATH} stroke="#E8793A" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
@@ -77,21 +77,14 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Hero image */}
-        <div style={{ position: "relative", zIndex: 1, marginLeft: 60, flexShrink: 0 }}>
-          <div style={{ width: 480, height: 400, borderRadius: 24, overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.15)" }}>
-            <img
-              src="https://images.unsplash.com/photo-1447005497901-b3e9ee359928?w=960&h=800&fit=crop&crop=faces"
-              alt="Älteres Ehepaar auf sonniger Terrasse in Antalya"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
+        {/* BPM widget */}
+        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ backgroundColor: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", borderRadius: 24, padding: "24px 40px", border: "1px solid rgba(196,114,95,0.15)", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 12px 40px rgba(0,0,0,0.06)" }}>
+            <div className="heart-pulse"><HeartSvg size={28} color="#E8793A" fill="#E8793A" /></div>
+            <span style={{ fontSize: 48, fontWeight: 800, color: "#E8793A", lineHeight: 1 }}>72</span>
+            <span style={{ fontSize: 16, color: "#8A9B8A", fontWeight: 500 }}>BPM</span>
           </div>
-          {/* BPM widget overlay */}
-          <div style={{ position: "absolute", top: 24, right: -30, backgroundColor: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", borderRadius: 20, padding: "16px 28px", border: "1px solid rgba(196,114,95,0.15)", display: "flex", alignItems: "center", gap: 8, boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}>
-            <div className="heart-pulse"><HeartSvg size={24} color="#E8793A" fill="#E8793A" /></div>
-            <span style={{ fontSize: 36, fontWeight: 800, color: "#E8793A" }}>72</span>
-            <span style={{ fontSize: 14, color: "#8A9B8A" }}>BPM</span>
-          </div>
+          <span style={{ fontSize: 13, color: "rgba(74,85,104,0.7)", fontWeight: 500 }}>Echtzeit-Überwachung aktiv</span>
         </div>
       </section>
 
