@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #080c14;
+  --surface: #0f1923;
+  --border: #1e2d40;
+  --gold: #e8a020;
+  --red: #ff2020;
+  --green: #00d46a;
+  --text: #e8eaf0;
+  --muted: #6b7a8d;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(232, 160, 32, 0.3);
+}
