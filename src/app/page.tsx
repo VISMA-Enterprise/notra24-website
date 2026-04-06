@@ -9,7 +9,7 @@ const HeartSvg = ({ size = 24, color = "#E8793A", fill = "none" }: { size?: numb
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill}><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke={color} strokeWidth="2" fill={fill}/></svg>
 );
 
-const Check = () => <span style={{ color: "#E8793A", fontWeight: 700, fontSize: 13 }}>✓</span>;
+const Check = () => <span style={{ color: "#1A5C8A", fontWeight: 700, fontSize: 13 }}>✓</span>;
 
 const FAQs = [
   { q: "Muss ich einen Vertrag unterschreiben?", a: "Nein, Notra 24 ist monatlich kündbar, ohne lange Vertragslaufzeiten." },
@@ -36,14 +36,14 @@ export default function HomePage() {
           {["Angebot","So funktioniert's","Pakete","Über uns","Kontakt"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/[^a-z]/g,"")}`} style={{ color: "#5A6B5A", fontSize: 14, textDecoration: "none" }}>{l}</a>
           ))}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginLeft: 16 }}>
           <div style={{ display: "flex", gap: 4 }}>
             {["DE","TR","EN","RU"].map((lang,i) => (
               <span key={lang} style={{ padding: "4px 8px", fontSize: 12, fontWeight: i===0?700:400, color: i===0?"#fff":"#8A9B8A", backgroundColor: i===0?"#1A5C8A":"transparent", borderRadius: 4 }}>{lang}</span>
             ))}
           </div>
           <a href="#kontakt" style={{ backgroundColor: "#1A5C8A", color: "#fff", padding: "12px 24px", borderRadius: 24, fontSize: 14, fontWeight: 700, textDecoration: "none" }}>Jetzt beraten lassen</a>
+          </div>
         </div>
       </nav>
 
@@ -88,12 +88,12 @@ export default function HomePage() {
         </div>
         <div style={{ display: "flex", gap: 32, width: "100%" }}>
           {[
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#E8793A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Sofortige Reaktion", desc: "Wenn Sie den Knopf drücken oder stürzen, sind wir innerhalb von Sekunden bei Ihnen — am Telefon und wenn nötig auch persönlich." },
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#E8793A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Wir sprechen Ihre Sprache", desc: "Deutsch, Türkisch, Englisch, Russisch — unsere Operatoren verstehen Sie und koordinieren schnell die richtige Hilfe." },
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="#E8793A" strokeWidth="2"/><circle cx="12" cy="10" r="3" stroke="#E8793A" strokeWidth="2"/></svg>, title: "Zuhause und unterwegs", desc: "Ob auf dem Balkon, im Park oder beim Einkaufen — unser GPS-System weiß immer wo Sie sind." },
+            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#1A5C8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Sofortige Reaktion", desc: "Wenn Sie den Knopf drücken oder stürzen, sind wir innerhalb von Sekunden bei Ihnen — am Telefon und wenn nötig auch persönlich." },
+            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#1A5C8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Wir sprechen Ihre Sprache", desc: "Deutsch, Türkisch, Englisch, Russisch — unsere Operatoren verstehen Sie und koordinieren schnell die richtige Hilfe." },
+            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="#1A5C8A" strokeWidth="2"/><circle cx="12" cy="10" r="3" stroke="#1A5C8A" strokeWidth="2"/></svg>, title: "Zuhause und unterwegs", desc: "Ob auf dem Balkon, im Park oder beim Einkaufen — unser GPS-System weiß immer wo Sie sind." },
           ].map(c => (
             <div key={c.title} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, padding: "40px 32px", backgroundColor: "#fff", borderRadius: 24, boxShadow: "0 4px 24px rgba(45,59,45,0.05)" }}>
-              <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: "#E8793A1A", display: "flex", alignItems: "center", justifyContent: "center" }}>{c.icon}</div>
+              <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: "#1A5C8A1A", display: "flex", alignItems: "center", justifyContent: "center" }}>{c.icon}</div>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: "#2D3B2D" }}>{c.title}</h3>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B", textAlign: "center" }}>{c.desc}</p>
             </div>
@@ -109,9 +109,9 @@ export default function HomePage() {
         </div>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 24, width: "100%" }}>
           {[
-            { num: "1", bg: "#E8793A", title: "Knopf drücken", desc: "Oder Sturz erkannt — das Armband erkennt automatisch wenn Sie fallen." },
+            { num: "1", bg: "#1A5C8A", title: "Knopf drücken", desc: "Oder Sturz erkannt — das Armband erkennt automatisch wenn Sie fallen." },
             { num: "2", bg: "#1A5C8A", title: "Wir melden uns", desc: "Sofort bei Ihnen — per Freisprechen direkt am Gerät. Ein echter Mensch spricht mit Ihnen." },
-            { num: "3", bg: "#E8793A", title: "Hilfe ist da", desc: "Angehörige werden informiert oder 112 wird koordiniert — je nach Situation." },
+            { num: "3", bg: "#1A5C8A", title: "Hilfe ist da", desc: "Angehörige werden informiert oder 112 wird koordiniert — je nach Situation." },
           ].map((s, i) => (
             <div key={s.num} style={{ display: "flex", alignItems: "flex-start", flex: 1 }}>
               <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, padding: 32 }}>
@@ -119,7 +119,7 @@ export default function HomePage() {
                 <h3 style={{ fontSize: 18, fontWeight: 700, color: "#2D3B2D" }}>{s.title}</h3>
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B", textAlign: "center" }}>{s.desc}</p>
               </div>
-              {i < 2 && <div style={{ paddingTop: 36, flexShrink: 0 }}><svg width="96" height="40" viewBox="0 0 96 40"><path d="M0,20 Q24,0 48,20 Q72,40 96,20" stroke="#E8793A" strokeWidth="2" fill="none" opacity="0.3"/></svg></div>}
+              {i < 2 && <div style={{ paddingTop: 36, flexShrink: 0 }}><svg width="96" height="40" viewBox="0 0 96 40"><path d="M0,20 Q24,0 48,20 Q72,40 96,20" stroke="#1A5C8A" strokeWidth="2" fill="none" opacity="0.3"/></svg></div>}
             </div>
           ))}
         </div>
@@ -138,14 +138,14 @@ export default function HomePage() {
             { name: "Safe Life", sub: "Schutz zuhause und unterwegs", desc: "Unser meistgewähltes Paket. Voller Schutz — ob beim Einkaufen, im Park oder zuhause.", features: ["Alles aus Safe Home","GPS-Armband mit eigener SIM","Automatische Sturzerkennung","GPS-Ortung bei Notfall","Funktioniert überall in der Türkei"], cta: "Jetzt beraten lassen", hl: true },
             { name: "Safe Home Plus", sub: "Rundum-Schutz für zuhause", desc: "Maximaler Schutz. Zusätzlich überwachen Sensoren Ihre Wohnung auf Rauch, CO und unerwartete Türöffnungen.", features: ["Alles aus Safe Life","Funk-Rauchmelder","Funk-CO-Melder","Türkontakt (Wohnungstür)","Für Menschen mit höherem Risiko"], cta: "Mehr erfahren", hl: false },
           ].map(p => (
-            <div key={p.name} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 24, padding: 36, backgroundColor: "#fff", borderRadius: 24, border: p.hl ? "2px solid #E8793A" : "none", boxShadow: p.hl ? "0 8px 32px rgba(232,121,58,0.12)" : "0 4px 24px rgba(45,59,45,0.05)", position: "relative" }}>
-              {p.hl && <div style={{ position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)", backgroundColor: "#E8793A", color: "#fff", padding: "6px 20px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>Beliebteste Wahl</div>}
+            <div key={p.name} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 24, padding: 36, backgroundColor: "#fff", borderRadius: 24, border: p.hl ? "2px solid #1A5C8A" : "none", boxShadow: p.hl ? "0 8px 32px rgba(26,92,138,0.15)" : "0 4px 24px rgba(45,59,45,0.05)", position: "relative" }}>
+              {p.hl && <div style={{ position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)", backgroundColor: "#1A5C8A", color: "#fff", padding: "6px 20px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>Beliebteste Wahl</div>}
               <div><h3 style={{ fontSize: 22, fontWeight: 700, color: "#2D3B2D" }}>{p.name}</h3><p style={{ fontSize: 13, color: "#8A9B8A", marginTop: 4 }}>{p.sub}</p></div>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B" }}>{p.desc}</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {p.features.map(f => <div key={f} style={{ display: "flex", alignItems: "center", gap: 8 }}><Check /><span style={{ fontSize: 14, color: "#4A5B4A" }}>{f}</span></div>)}
               </div>
-              <a href="#kontakt" style={{ display: "flex", justifyContent: "center", padding: 14, borderRadius: 28, fontSize: 14, fontWeight: p.hl ? 700 : 600, textDecoration: "none", backgroundColor: p.hl ? "#E8793A" : "transparent", color: p.hl ? "#fff" : "#E8793A", border: p.hl ? "none" : "2px solid #E8793A", marginTop: "auto" }}>{p.cta}</a>
+              <a href="#kontakt" style={{ display: "flex", justifyContent: "center", padding: 14, borderRadius: 28, fontSize: 14, fontWeight: p.hl ? 700 : 600, textDecoration: "none", backgroundColor: p.hl ? "#1A5C8A" : "transparent", color: p.hl ? "#fff" : "#1A5C8A", border: p.hl ? "none" : "2px solid #1A5C8A", marginTop: "auto" }}>{p.cta}</a>
             </div>
           ))}
         </div>
@@ -161,7 +161,7 @@ export default function HomePage() {
         <div style={{ display: "flex", gap: 24, width: "100%", maxWidth: 1400 }}>
           {[
             { ini: "HM", name: "Hans M., 78 Jahre", loc: "Konyaaltı, Antalya", q: "\"Seit meiner Frau nicht mehr da ist, lebe ich allein. Mit Notra 24 fühle ich mich nicht mehr allein — die sind wirklich immer da, auch nachts um 3 Uhr.\"", bg: "#1A5C8A" },
-            { ini: "AY", name: "Ayşe Y., 71 Jahre", loc: "Lara, Antalya", q: "\"Benim kızım İstanbul'da yaşıyor. Notra 24 sayesinde kızım her zaman güvende olduğumu biliyor. Çok teşekkürler!\"", bg: "#E8793A" },
+            { ini: "AY", name: "Ayşe Y., 71 Jahre", loc: "Lara, Antalya", q: "\"Benim kızım İstanbul'da yaşıyor. Notra 24 sayesinde kızım her zaman güvende olduğumu biliyor. Çok teşekkürler!\"", bg: "#2E7EB5" },
             { ini: "MK", name: "Margaret K., 69 Jahre", loc: "Belek, Antalya", q: "\"I had a fall last winter and couldn't reach my phone. The bracelet detected it automatically and Notra called me within seconds. Absolutely life-saving.\"", bg: "#1A5C8A" },
           ].map(t => (
             <div key={t.name} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16, padding: 32, backgroundColor: "#fff", borderRadius: 24 }}>
@@ -170,7 +170,7 @@ export default function HomePage() {
                 <div><div style={{ fontSize: 14, fontWeight: 600, color: "#2D3B2D" }}>{t.name}</div><div style={{ fontSize: 12, color: "#8A9B8A" }}>{t.loc}</div></div>
               </div>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B" }}>{t.q}</p>
-              <div style={{ color: "#E8793A", fontSize: 14 }}>★★★★★</div>
+              <div style={{ color: "#D4943A", fontSize: 14 }}>★★★★★</div>
             </div>
           ))}
         </div>
@@ -183,7 +183,7 @@ export default function HomePage() {
           <p style={{ fontSize: 15, lineHeight: 1.7, color: "#6B7B6B" }}>Notra 24 wurde gegründet, weil wir gesehen haben, wie viele ältere Menschen in Antalya allein leben — ohne Sicherheitsnetz. Wir haben eine professionelle Leitstelle aufgebaut, die nach dem Vorbild des Deutschen Roten Kreuzes arbeitet.</p>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: "#6B7B6B" }}>Unsere mehrsprachigen Operatoren sind rund um die Uhr für Sie da. Keine Warteschleife, kein Anrufbeantworter — ein echter Mensch hebt ab.</p>
           <div style={{ display: "flex", paddingTop: 16 }}>
-            {[{v:"24/7",l:"Erreichbar",c:"#1A5C8A"},{v:"4",l:"Sprachen",c:"#1A5C8A"},{v:"< 10s",l:"Reaktionszeit",c:"#E8793A"},{v:"Antalya",l:"Türkei",c:"#1A5C8A"}].map((s,i,a) => (
+            {[{v:"24/7",l:"Erreichbar",c:"#1A5C8A"},{v:"4",l:"Sprachen",c:"#1A5C8A"},{v:"< 10s",l:"Reaktionszeit",c:"#1A5C8A"},{v:"Antalya",l:"Türkei",c:"#1A5C8A"}].map((s,i,a) => (
               <div key={s.l} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: 16, borderRight: i<a.length-1?"1px solid rgba(45,59,45,0.1)":"none" }}>
                 <span style={{ fontSize: 32, fontWeight: 800, color: s.c }}>{s.v}</span>
                 <span style={{ fontSize: 12, color: "#8A9B8A" }}>{s.l}</span>
@@ -204,7 +204,7 @@ export default function HomePage() {
             <div key={i} style={{ borderBottom: i<FAQs.length-1?"1px solid rgba(45,59,45,0.1)":"none" }}>
               <button onClick={() => setOpenFaq(openFaq===i?-1:i)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "20px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>
                 <span style={{ fontSize: 16, color: "#4A5B4A", textAlign: "left" }}>{faq.q}</span>
-                <span style={{ color: "#E8793A", fontSize: 20, flexShrink: 0, marginLeft: 16 }}>{openFaq===i?"−":"+"}</span>
+                <span style={{ color: "#1A5C8A", fontSize: 20, flexShrink: 0, marginLeft: 16 }}>{openFaq===i?"−":"+"}</span>
               </button>
               {openFaq===i && <div style={{ paddingBottom: 20, fontSize: 14, lineHeight: 1.6, color: "#6B7B6B" }}>{faq.a}</div>}
             </div>
@@ -218,7 +218,7 @@ export default function HomePage() {
           <h2 style={{ fontFamily: "'Lora', serif", fontSize: 36, fontWeight: 700, color: "#2D3B2D" }}>Wir freuen uns auf Ihren Anruf.</h2>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: "#6B7B6B" }}>Kein Druck, kein Verkaufsgespräch — wir beraten Sie ehrlich, welches Paket für Sie passt.</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 16, paddingTop: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}><span style={{ color: "#E8793A", fontWeight: 600, fontSize: 14 }}>+90 XXX XXX XX XX</span><span style={{ color: "#8A9B8A", fontSize: 12 }}>Mo-So, 24 Stunden</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}><span style={{ color: "#1A5C8A", fontWeight: 600, fontSize: 14 }}>+90 XXX XXX XX XX</span><span style={{ color: "#8A9B8A", fontSize: 12 }}>Mo-So, 24 Stunden</span></div>
             <span style={{ color: "#4A5B4A", fontSize: 14 }}>info@notra24.com</span>
             <span style={{ color: "#4A5B4A", fontSize: 14 }}>Antalya, Türkei</span>
           </div>
@@ -240,7 +240,7 @@ export default function HomePage() {
             <label style={{ fontSize: 13, color: "#6B7B6B" }}>Nachricht (optional)</label>
             <textarea rows={3} placeholder="Ihre Nachricht..." style={{ backgroundColor: "#fff", border: "1px solid rgba(45,59,45,0.12)", borderRadius: 12, padding: "12px 16px", fontSize: 14, color: "#4A5B4A", outline: "none", resize: "none", fontFamily: "'Nunito', sans-serif" }} />
           </div>
-          <button style={{ backgroundColor: "#E8793A", color: "#fff", padding: 16, borderRadius: 28, fontSize: 15, fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>Rückruf anfragen</button>
+          <button style={{ backgroundColor: "#1A5C8A", color: "#fff", padding: 16, borderRadius: 28, fontSize: 15, fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>Rückruf anfragen</button>
         </div>
       </section>
 
