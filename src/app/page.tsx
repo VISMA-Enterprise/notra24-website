@@ -87,7 +87,7 @@ export default function HomePage() {
       )}
 
       {/* ── Hero ── */}
-      <section style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "100%", minHeight: "100vh", position: "relative", padding: "100px clamp(20px, 5vw, 80px) 60px", overflow: "hidden", background: "linear-gradient(135deg, #FCF5EE 0%, #E8C9A8 40%, #C4956C 100%)" }}>
+      <section style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", minHeight: "100vh", position: "relative", padding: "100px clamp(20px, 5vw, 120px) 60px", overflow: "hidden", background: "linear-gradient(135deg, #FCF5EE 0%, #E8C9A8 40%, #C4956C 100%)" }}>
         <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", alignItems: "center", overflow: "hidden", pointerEvents: "none" }}>
           <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.2 }}>
             <path className="ekg-line" d={EKG_PATH} stroke="#E8793A" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
