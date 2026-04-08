@@ -61,7 +61,7 @@ export default function Page() {
       </div>}
 
       {/* Hero */}
-      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "100vh", position: "relative", padding: "clamp(100px,12vw,140px) clamp(20px,5vw,60px) 40px", overflow: "hidden", background: "linear-gradient(180deg, #fff 0%, #F5F0EA 100%)" }}>
+      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "85vh", position: "relative", padding: "clamp(100px,12vw,140px) clamp(20px,5vw,60px) 40px", overflow: "hidden", background: "linear-gradient(180deg, #fff 0%, #F5F0EA 100%)" }}>
         <div style={{ position: "absolute", top: "30%", left: 0, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.04, pointerEvents: "none" }}>
           <svg width="100%" height="400" viewBox="0 0 1440 400" preserveAspectRatio="none" fill="none"><path className="ekg-line" d={EKG} stroke={K} strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
