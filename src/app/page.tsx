@@ -1,42 +1,31 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+const K = "#E8793A";
+const EKG = "M-20,200 L100,200 L140,200 L180,198 L200,202 L220,195 L240,205 L260,170 L280,230 L300,80 L320,320 L340,130 L360,270 L380,190 L400,200 L480,200 L600,200 L640,198 L660,202 L680,195 L700,205 L720,170 L740,230 L760,80 L780,320 L800,130 L820,270 L840,190 L860,200 L940,200 L1060,200 L1100,198 L1120,202 L1140,195 L1160,205 L1180,170 L1200,230 L1220,80 L1240,320 L1260,130 L1280,270 L1300,190 L1320,200 L1460,200";
 
-const EKG_SEGMENT = "l60,0 l8,-2 l4,2 l4,-8 l4,12 l6,-50 l6,95 l6,-105 l6,100 l6,-45 l4,8 l4,-2 l8,0 l60,0";
-const EKG_PATH = `M0,160 l200,0 ${EKG_SEGMENT} l200,0 ${EKG_SEGMENT} l200,0 ${EKG_SEGMENT} l200,0`;
-const C = { blue: "#1A5C8A", text: "#2D3B2D", body: "#4A5568", muted: "#6B7280", accent: "#E8793A", bg: "#FDF8F3", green: "#00C853" };
-
-function useAnim() {
-  const ref = useRef<HTMLDivElement>(null);
+function useA() {
+  const r = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!ref.current) return;
-    const els = ref.current.querySelectorAll(".anim,.anim-left,.anim-right,.anim-scale");
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } });
-    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
-    els.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    if (!r.current) return;
+    const o = new IntersectionObserver((e) => e.forEach((x) => { if (x.isIntersecting) { x.target.classList.add("visible"); o.unobserve(x.target); } }), { threshold: 0.12, rootMargin: "0px 0px -30px 0px" });
+    r.current.querySelectorAll(".anim,.anim-scale").forEach((e) => o.observe(e));
+    return () => o.disconnect();
   }, []);
-  return ref;
+  return r;
 }
 
-const Heart = ({ s = 24, c = "#E8793A", f = "none" }: { s?: number; c?: string; f?: string }) => (
-  <svg width={s} height={s} viewBox="0 0 24 24" fill={f}><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke={c} strokeWidth="2" fill={f}/></svg>
-);
+function Heart({ s = 24, c = K }: { s?: number; c?: string }) {
+  return <svg width={s} height={s} viewBox="0 0 24 24" fill={c}><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>;
+}
 
-const FAQs = [
-  { q: "Muss ich einen Vertrag unterschreiben?", a: "Nein, Notra 24 ist monatlich kündbar, ohne lange Vertragslaufzeiten." },
-  { q: "Funktioniert das Armband auch im Bad?", a: "Ja, das Armband ist wasserdicht (IP67) und kann beim Duschen und Baden getragen werden." },
-  { q: "Was passiert wenn der Strom ausfällt?", a: "Die Heimzentrale hat einen eingebauten Akku und wechselt automatisch auf 4G-Mobilfunk." },
-  { q: "Kann ich das Gerät auch unterwegs nutzen?", a: "Mit dem Safe Life oder Safe Home Plus Paket erhalten Sie ein GPS-Armband mit eigener SIM-Karte." },
-  { q: "In welchen Sprachen kann ich mit dem Operator sprechen?", a: "Deutsch, Türkisch, Englisch und Russisch." },
-  { q: "Wie wird das Gerät installiert?", a: "Wir kommen zu Ihnen nach Hause und installieren alles kostenlos. Ca. 30 Minuten." },
-];
+function Pill({ t, right }: { t: string; right?: boolean }) {
+  return <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid #E0D8CF", borderRadius: 24, padding: "10px 20px", flexDirection: right ? "row-reverse" : "row" }}><span style={{ color: K, fontSize: 13 }}>{t}</span><div style={{ width: 24, height: 24, borderRadius: "50%", background: K, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 14 }}>+</div></div>;
+}
 
-export default function HomePage() {
-  const [openFaq, setOpenFaq] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function Page() {
+  const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const animRef = useAnim();
+  const ref = useA();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
@@ -45,250 +34,164 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div ref={animRef} style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-
-      {/* ── Nav ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "space-between", height: 64, padding: "0 clamp(16px, 5vw, 80px)", background: scrolled ? "rgba(255,255,255,0.95)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? "1px solid #E8E0D8" : "none", transition: "all .3s ease" }}>
-        <a href="#" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-          <Heart s={24} c="#E8793A" f="#E8793A" />
-          <span style={{ fontSize: 20, fontWeight: 800, color: C.text, letterSpacing: -0.5 }}>Notra 24</span>
-        </a>
-        <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          {["Angebot", "So funktioniert's", "Pakete", "Über uns", "Kontakt"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(/[^a-z]/g, "")}`} style={{ color: "#5A6B5A", fontSize: 14, textDecoration: "none", transition: "color .2s" }}>{l}</a>
-          ))}
+    <div ref={ref} style={{ display: "flex", flexDirection: "column" }}>
+      {/* Nav */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "space-between", height: 72, padding: "0 clamp(20px,5vw,60px)", background: scrolled ? "rgba(255,255,255,.97)" : "#fff", backdropFilter: scrolled ? "blur(8px)" : "none", borderBottom: scrolled ? "1px solid #E8E0D8" : "none", transition: "all .3s" }}>
+        <a href="#" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}><Heart s={20} /><span style={{ fontSize: 18, fontWeight: 700, color: "#2D2D2D" }}>Notra 24</span></a>
+        <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ background: "#FFF3ED", borderRadius: 24, padding: "10px 20px", fontSize: 14, fontWeight: 600, color: K, display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 6, height: 6, borderRadius: "50%", background: K, display: "inline-block" }} /> Home</span>
+          {["Angebot", "Pakete", "Kontakt"].map((l) => <a key={l} href={`#${l.toLowerCase()}`} style={{ padding: "10px 16px", fontSize: 14, color: "#666", textDecoration: "none" }}>{l}</a>)}
         </div>
-        <div className="nav-cta" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", gap: 2 }}>
-            {["DE", "TR", "EN", "RU"].map((l, i) => (
-              <span key={l} style={{ padding: "4px 6px", fontSize: 11, fontWeight: i === 0 ? 700 : 400, color: i === 0 ? "#fff" : "#8A9B8A", background: i === 0 ? C.blue : "transparent", borderRadius: 4 }}>{l}</span>
-            ))}
-          </div>
-          <a href="#kontakt" style={{ background: C.blue, color: "#fff", padding: "10px 20px", borderRadius: 24, fontSize: 13, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>Jetzt beraten lassen</a>
+        <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <span style={{ fontSize: 14, color: "#666" }}>DE</span>
+          <a href="#kontakt" style={{ background: K, color: "#fff", padding: "10px 24px", borderRadius: 24, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>Jetzt anrufen</a>
         </div>
-        {/* Mobile hamburger */}
-        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", alignItems: "center", justifyContent: "center", width: 40, height: 40, background: "none", border: "none", cursor: "pointer" }}>
+        <button className="show-mobile" onClick={() => setMenu(!menu)} style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8 }}>
           <div style={{ width: 22, display: "flex", flexDirection: "column", gap: 5 }}>
-            <div style={{ height: 2, background: C.text, borderRadius: 1, transition: "all .3s", transform: menuOpen ? "rotate(45deg) translateY(7px)" : "none" }} />
-            <div style={{ height: 2, background: C.text, borderRadius: 1, transition: "all .3s", opacity: menuOpen ? 0 : 1 }} />
-            <div style={{ height: 2, background: C.text, borderRadius: 1, transition: "all .3s", transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none" }} />
+            <div style={{ height: 2, background: "#2D2D2D", borderRadius: 1, transition: "all .3s", transform: menu ? "rotate(45deg) translateY(7px)" : "none" }} />
+            <div style={{ height: 2, background: "#2D2D2D", borderRadius: 1, transition: "all .3s", opacity: menu ? 0 : 1 }} />
+            <div style={{ height: 2, background: "#2D2D2D", borderRadius: 1, transition: "all .3s", transform: menu ? "rotate(-45deg) translateY(-7px)" : "none" }} />
           </div>
         </button>
       </nav>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="mobile-menu" style={{ position: "fixed", top: 64, left: 0, right: 0, bottom: 0, zIndex: 49, background: "rgba(253,248,243,0.98)", backdropFilter: "blur(12px)", padding: 24, display: "flex", flexDirection: "column", gap: 16 }}>
-          {["Angebot", "So funktioniert's", "Pakete", "Über uns", "Kontakt"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(/[^a-z]/g, "")}`} onClick={() => setMenuOpen(false)} style={{ fontSize: 18, fontWeight: 600, color: C.text, textDecoration: "none", padding: "12px 0", borderBottom: "1px solid #E8E0D8" }}>{l}</a>
-          ))}
-          <a href="#kontakt" onClick={() => setMenuOpen(false)} style={{ background: C.blue, color: "#fff", padding: "14px 24px", borderRadius: 28, fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Jetzt beraten lassen</a>
-        </div>
-      )}
+      {menu && <div className="show-mobile" style={{ position: "fixed", top: 72, left: 0, right: 0, bottom: 0, zIndex: 49, background: "rgba(245,243,239,.98)", padding: 24, display: "flex", flexDirection: "column", gap: 12 }}>
+        {["Angebot", "Pakete", "Kontakt"].map((l) => <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenu(false)} style={{ fontSize: 18, fontWeight: 600, color: "#2D2D2D", textDecoration: "none", padding: "14px 0", borderBottom: "1px solid #E0D8CF" }}>{l}</a>)}
+        <a href="#kontakt" onClick={() => setMenu(false)} style={{ background: K, color: "#fff", padding: "14px 24px", borderRadius: 28, fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Jetzt anrufen</a>
+      </div>}
 
-      {/* ── Hero ── */}
-      <section style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", minHeight: "100vh", position: "relative", padding: "100px clamp(20px, 5vw, 120px) 60px", overflow: "hidden", background: "linear-gradient(135deg, #FCF5EE 0%, #E8C9A8 40%, #C4956C 100%)" }}>
-        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", alignItems: "center", overflow: "hidden", pointerEvents: "none" }}>
-          <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.2 }}>
-            <path className="ekg-line" d={EKG_PATH} stroke="#E8793A" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <svg width="100%" height="320" viewBox="0 0 1626 320" preserveAspectRatio="none" fill="none" style={{ position: "absolute", opacity: 0.1 }}>
-            <path className="ekg-line-slow" d={EKG_PATH} stroke="#E8793A" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+      {/* Hero */}
+      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "100vh", position: "relative", padding: "clamp(100px,12vw,140px) clamp(20px,5vw,60px) 40px", overflow: "hidden", background: "linear-gradient(180deg, #fff 0%, #F5F0EA 100%)" }}>
+        <div style={{ position: "absolute", top: "30%", left: 0, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.04, pointerEvents: "none" }}>
+          <svg width="100%" height="400" viewBox="0 0 1440 400" preserveAspectRatio="none" fill="none"><path className="ekg-line" d={EKG} stroke={K} strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 640 }}>
-          <h1 className="anim visible" style={{ fontFamily: "'Lora', serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 700, lineHeight: 1.15, color: C.blue, marginBottom: 20 }}>Immer jemand da. Zu jeder Zeit.</h1>
-          <p className="anim visible delay-1" style={{ fontSize: "clamp(16px, 2vw, 19px)", lineHeight: 1.6, color: C.body, marginBottom: 28 }}>Notra 24 — Ihr persönlicher Notdienst in Antalya. Rund um die Uhr erreichbar. Mehrsprachig. Mit echten Menschen.</p>
-          <div className="anim visible delay-2" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
-            <a href="#pakete" style={{ background: C.blue, color: "#fff", padding: "14px 28px", borderRadius: 32, fontSize: "clamp(14px,1.5vw,16px)", fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>Unser Angebot entdecken</a>
-            <a href="#kontakt" style={{ border: `2px solid ${C.blue}`, color: C.blue, padding: "14px 28px", borderRadius: 32, fontSize: "clamp(14px,1.5vw,16px)", fontWeight: 700, textDecoration: "none", background: "transparent", whiteSpace: "nowrap" }}>Kostenlos beraten lassen</a>
+        <div style={{ position: "relative", textAlign: "center", maxWidth: 960 }}>
+          <h1 className="anim visible" style={{ fontFamily: "'Lora',serif", fontSize: "clamp(36px,7vw,72px)", fontWeight: 700, lineHeight: 1.15, color: "#2D2D2D", textTransform: "uppercase", letterSpacing: -1 }}>IHRE SICHERHEIT, UNSERE</h1>
+          <p className="anim visible d1" style={{ fontSize: "clamp(13px,1.5vw,14px)", color: "#888", margin: "12px 0" }}>Persönlicher Notdienst und Sicherheitsservice für Senioren in Antalya.</p>
+          <h1 className="anim visible d2" style={{ fontFamily: "'Lora',serif", fontSize: "clamp(36px,7vw,72px)", fontWeight: 700, lineHeight: 1.15, color: "#2D2D2D", textTransform: "uppercase", letterSpacing: -1 }}>24/7 NOTDIENST</h1>
+        </div>
+        <div className="anim visible d3" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: "100%", maxWidth: 1000, padding: "clamp(20px,4vw,40px) 0", marginTop: 16 }}>
+          <div className="hide-mobile" style={{ display: "flex", flexDirection: "column", gap: 16, position: "absolute", left: 0 }}><Pill t="Sofort-Reaktion" /><Pill t="Mehrsprachig" /></div>
+          <div style={{ position: "relative", width: "clamp(120px,20vw,200px)", height: "clamp(120px,20vw,200px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="ring-pulse" style={{ position: "absolute", width: "160%", height: "160%", borderRadius: "50%", border: `1px solid ${K}` }} />
+            <div style={{ position: "absolute", width: "140%", height: "140%", borderRadius: "50%", border: "1px solid rgba(232,121,58,0.12)" }} />
+            <div className="heart-float"><Heart s={120} c={K} /></div>
           </div>
-          <div className="anim visible delay-3" style={{ display: "flex", gap: "clamp(12px, 2vw, 24px)", flexWrap: "wrap" }}>
-            {["24/7 erreichbar", "Mehrsprachig", "Sofort-Reaktion", "Zertifizierte Hardware"].map(t => (
-              <div key={t} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ color: C.blue, fontWeight: 700, fontSize: 13 }}>✓</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: C.body }}>{t}</span>
-              </div>
-            ))}
-          </div>
+          <div className="hide-mobile" style={{ display: "flex", flexDirection: "column", gap: 16, position: "absolute", right: 0, alignItems: "flex-end" }}><Pill t="GPS-Ortung" right /><Pill t="Sturzerkennung" right /></div>
+        </div>
+        <div className="anim d4" style={{ display: "flex", borderRadius: 32, border: `2px solid ${K}`, overflow: "hidden", maxWidth: 520, width: "100%", marginTop: "clamp(16px,3vw,32px)" }}>
+          <div style={{ flex: 1, background: K, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 20px" }}><span style={{ color: "rgba(255,255,255,.7)", fontSize: 14 }}>Ihre Telefonnummer eingeben</span></div>
+          <a href="#kontakt" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 28px", background: "#fff", color: K, fontSize: 14, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>Rückruf anfragen</a>
         </div>
       </section>
 
-      {/* ── Warum Notra 24 ── */}
-      <section id="angebot" style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,120px)", gap: 48, background: "#fff" }}>
+      {/* Stats */}
+      <section style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "clamp(24px,4vw,40px) clamp(20px,5vw,60px)", gap: "clamp(20px,4vw,40px)", flexWrap: "wrap" }}>
+        <div className="anim-scale" style={{ background: "#fff", borderRadius: 16, padding: "20px 28px", border: "1px solid #E8E0D8" }}>
+          <p style={{ fontSize: 12, color: "#888", marginBottom: 4 }}>Reaktionszeit</p>
+          <p style={{ fontSize: 11, color: "#888" }}>Durchschnitt</p>
+          <p style={{ fontSize: 36, fontWeight: 700, color: "#2D2D2D" }}>{"< 10s"}</p>
+        </div>
+        <div className="anim-scale d1" style={{ textAlign: "center", flex: "1 1 300px", maxWidth: 500 }}>
+          <p style={{ fontSize: 14, color: "#888", marginBottom: 12 }}>Vertrauen Sie auf Notra 24 — Ihr persönlicher Sicherheitspartner für Angehörige in der Türkei.</p>
+          <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
+            {["M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72", "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"].map((d, i) => <div key={i} style={{ width: 40, height: 40, borderRadius: "50%", border: "1px solid #E0D8CF", display: "flex", alignItems: "center", justifyContent: "center" }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2"><path d={d} /></svg></div>)}
+          </div>
+        </div>
+        <div className="anim-scale d2" style={{ background: "#fff", borderRadius: 16, padding: "20px 28px", border: "1px solid #E8E0D8" }}>
+          <p style={{ fontSize: 12, color: "#888", marginBottom: 8 }}>Kundenzufriedenheit</p>
+          <div style={{ display: "flex", gap: 4 }}>{[1, 2, 3].map((i) => <div key={i} style={{ width: 40, height: 48, borderRadius: 8, background: i < 3 ? "#E8E0D8" : K, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 4 }}><span style={{ fontSize: 10, color: i < 3 ? "#888" : "#fff", fontWeight: 700 }}>{i === 3 ? "98%" : ""}</span></div>)}</div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section id="angebot" style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(40px,6vw,60px) clamp(20px,5vw,60px)", gap: 40 }}>
         <div style={{ textAlign: "center" }}>
-          <h2 className="anim" style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, color: C.text, marginBottom: 12 }}>Warum Notra 24?</h2>
-          <p className="anim delay-1" style={{ fontSize: 16, color: "#8A9B8A" }}>Weil Ihre Sicherheit keine Wartezeit kennt.</p>
+          <p className="anim" style={{ fontSize: 12, color: K, fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>WARUM NOTRA 24</p>
+          <h2 className="anim d1" style={{ fontFamily: "'Lora',serif", fontSize: "clamp(28px,4vw,40px)", fontWeight: 700, lineHeight: 1.2 }}>{"Sicherheit, die keine"}<br />Wartezeit kennt.</h2>
         </div>
-        <div style={{ display: "flex", gap: 24, width: "100%", flexWrap: "wrap" }}>
-          {[
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke={C.blue} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Sofortige Reaktion", desc: "Wenn Sie den Knopf drücken oder stürzen, sind wir innerhalb von Sekunden bei Ihnen.", d: 1 },
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke={C.blue} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Wir sprechen Ihre Sprache", desc: "Deutsch, Türkisch, Englisch, Russisch — unsere Operatoren verstehen Sie.", d: 2 },
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke={C.blue} strokeWidth="2"/><circle cx="12" cy="10" r="3" stroke={C.blue} strokeWidth="2"/></svg>, title: "Zuhause und unterwegs", desc: "Ob auf dem Balkon oder beim Einkaufen — unser GPS weiß immer wo Sie sind.", d: 3 },
-          ].map(c => (
-            <div key={c.title} className={`anim-scale delay-${c.d} hover-lift`} style={{ flex: "1 1 280px", display: "flex", flexDirection: "column", alignItems: "center", gap: 20, padding: "40px 28px", background: "#fff", borderRadius: 24, boxShadow: "0 4px 24px rgba(45,59,45,0.05)" }}>
-              <div style={{ width: 56, height: 56, borderRadius: "50%", background: `${C.blue}1A`, display: "flex", alignItems: "center", justifyContent: "center" }}>{c.icon}</div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: C.text }}>{c.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B", textAlign: "center" }}>{c.desc}</p>
+        <div style={{ display: "flex", gap: 20, width: "100%", maxWidth: 1320, flexWrap: "wrap", justifyContent: "center" }}>
+          {[{ icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z", t: "Sofortige Reaktion", d: "Wenn Sie den Knopf drücken oder stürzen, sind wir innerhalb von Sekunden bei Ihnen." }, { icon: "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z", t: "Wir sprechen Ihre Sprache", d: "Deutsch, Türkisch, Englisch, Russisch — unsere Operatoren verstehen Sie." }, { icon: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z", t: "Zuhause und unterwegs", d: "Ob auf dem Balkon, im Park oder beim Einkaufen — unser GPS weiss wo Sie sind." }, { icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", t: "Zertifizierte Hardware", d: "Wasserdichte Armbänder und 4G-Heimzentrale mit Stromausfall-Schutz." }].map((c, i) => (
+            <div key={c.t} className={`anim-scale d${i + 1} hover-up`} style={{ flex: "1 1 280px", maxWidth: 320, background: "#fff", borderRadius: 16, border: "1px solid #E8E0D8", padding: "clamp(24px,3vw,32px)", display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, border: "1px solid #E8E0D8", display: "flex", alignItems: "center", justifyContent: "center" }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={K} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg></div>
+              <h3 style={{ fontSize: 16, fontWeight: 700 }}>{c.t}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.6, color: "#888" }}>{c.d}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── So funktioniert's ── */}
-      <section id="sofunktionierts" style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,120px)", gap: 48, background: C.bg }}>
+      {/* How it works */}
+      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(40px,6vw,60px) clamp(20px,5vw,60px)", gap: 40 }}>
         <div style={{ textAlign: "center" }}>
-          <h2 className="anim" style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, color: C.text, marginBottom: 12 }}>So funktioniert Notra 24</h2>
-          <p className="anim delay-1" style={{ fontSize: 16, color: "#8A9B8A" }}>Hilfe in 3 einfachen Schritten</p>
+          <p className="anim" style={{ fontSize: 12, color: K, fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>{"SO FUNKTIONIERT\u0027S"}</p>
+          <h2 className="anim d1" style={{ fontFamily: "'Lora',serif", fontSize: "clamp(28px,4vw,40px)", fontWeight: 700 }}>Hilfe in 3 Schritten</h2>
         </div>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 16, width: "100%", flexWrap: "wrap", justifyContent: "center" }}>
-          {[
-            { num: "1", bg: C.blue, title: "Knopf drücken", desc: "Oder Sturz erkannt — das Armband erkennt automatisch wenn Sie fallen." },
-            { num: "2", bg: C.accent, title: "Wir melden uns", desc: "Sofort bei Ihnen — per Freisprechen direkt am Gerät. Ein echter Mensch." },
-            { num: "3", bg: C.blue, title: "Hilfe ist da", desc: "Angehörige werden informiert oder 112 wird koordiniert." },
-          ].map((s, i) => (
-            <div key={s.num} className={`anim delay-${i + 1}`} style={{ flex: "1 1 260px", maxWidth: 360, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, padding: "32px 24px" }}>
-              <div className="hover-lift" style={{ width: 72, height: 72, borderRadius: "50%", background: s.bg, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 28, fontWeight: 800, transition: "transform .3s" }}>{s.num}</div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: C.text }}>{s.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B", textAlign: "center" }}>{s.desc}</p>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 8, width: "100%", maxWidth: 1000, flexWrap: "wrap", justifyContent: "center" }}>
+          {[{ n: "1", t: "Knopf drücken", d: "Oder Sturz erkannt — das Armband erkennt automatisch wenn Sie fallen." }, { n: "2", t: "Wir melden uns", d: "Sofort bei Ihnen — per Freisprechen direkt am Gerät. Ein echter Mensch." }, { n: "3", t: "Hilfe ist da", d: "Angehörige werden informiert oder 112 wird koordiniert." }].map((s, i) => (
+            <div key={s.n} style={{ display: "flex", alignItems: "flex-start", flex: "1 1 200px" }}>
+              <div className={`anim d${i + 1}`} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: "clamp(16px,2vw,24px)", textAlign: "center" }}>
+                <div style={{ width: 56, height: 56, borderRadius: "50%", background: K, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 22, fontWeight: 800 }}>{s.n}</div>
+                <h3 style={{ fontSize: 16, fontWeight: 700 }}>{s.t}</h3>
+                <p style={{ fontSize: 13, lineHeight: 1.5, color: "#888" }}>{s.d}</p>
+              </div>
+              {i < 2 && <div className="hide-mobile" style={{ paddingTop: 24, flexShrink: 0 }}><svg width="80" height="40" viewBox="0 0 80 40"><line x1="0" y1="20" x2="80" y2="20" stroke="#E0D8CF" strokeWidth="2" strokeDasharray="6 4" /></svg></div>}
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Pakete ── */}
-      <section id="pakete" style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,80px)", gap: 48, background: "#fff" }}>
+      {/* Pakete */}
+      <section id="pakete" style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(40px,6vw,60px) clamp(20px,5vw,60px)", gap: 40 }}>
         <div style={{ textAlign: "center" }}>
-          <h2 className="anim" style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, color: C.text, marginBottom: 12 }}>Finden Sie das passende Paket</h2>
-          <p className="anim delay-1" style={{ fontSize: 16, color: "#8A9B8A", fontStyle: "italic" }}>Drei Schutzstufen — für jeden Lebensstil</p>
+          <p className="anim" style={{ fontSize: 12, color: K, fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>PAKETE</p>
+          <h2 className="anim d1" style={{ fontFamily: "'Lora',serif", fontSize: "clamp(28px,4vw,40px)", fontWeight: 700 }}>Das passende Paket für Sie</h2>
         </div>
-        <div style={{ display: "flex", gap: 20, width: "100%", maxWidth: 1200, flexWrap: "wrap", justifyContent: "center" }}>
-          {[
-            { name: "Safe Home", sub: "Sicherheit zuhause", desc: "Für Menschen, die überwiegend zuhause sind.", features: ["Heimzentrale (4G + Stromausfall-Schutz)", "Funk-Armband (wasserdicht)", "24/7 Leitstellen-Verbindung", "Angehörigen-Benachrichtigung", "Installation vor Ort"], cta: "Mehr erfahren", hl: false },
-            { name: "Safe Life", sub: "Schutz zuhause und unterwegs", desc: "Unser meistgewähltes Paket. Voller Schutz überall.", features: ["Alles aus Safe Home", "GPS-Armband mit eigener SIM", "Automatische Sturzerkennung", "GPS-Ortung bei Notfall", "Funktioniert überall in der Türkei"], cta: "Jetzt beraten lassen", hl: true },
-            { name: "Safe Home Plus", sub: "Rundum-Schutz für zuhause", desc: "Maximaler Schutz mit Rauch-, CO- und Türsensoren.", features: ["Alles aus Safe Life", "Funk-Rauchmelder", "Funk-CO-Melder", "Türkontakt (Wohnungstür)", "Für Menschen mit höherem Risiko"], cta: "Mehr erfahren", hl: false },
-          ].map((p, i) => (
-            <div key={p.name} className={`anim-scale delay-${i + 1} hover-lift`} style={{ flex: "1 1 320px", maxWidth: 400, display: "flex", flexDirection: "column", gap: 20, padding: "clamp(24px,3vw,36px)", background: "#fff", borderRadius: 24, border: p.hl ? `2px solid ${C.blue}` : "none", boxShadow: p.hl ? `0 8px 32px rgba(26,92,138,0.12)` : "0 4px 24px rgba(45,59,45,0.05)", position: "relative" }}>
-              {p.hl && <div style={{ position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)", background: C.blue, color: "#fff", padding: "6px 20px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>Beliebteste Wahl</div>}
-              <div><h3 style={{ fontSize: 22, fontWeight: 700, color: C.text }}>{p.name}</h3><p style={{ fontSize: 13, color: "#8A9B8A", marginTop: 4 }}>{p.sub}</p></div>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B" }}>{p.desc}</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {p.features.map(f => <div key={f} style={{ display: "flex", alignItems: "center", gap: 8 }}><span style={{ color: C.blue, fontWeight: 700, fontSize: 13 }}>✓</span><span style={{ fontSize: 14, color: "#4A5B4A" }}>{f}</span></div>)}
-              </div>
-              <a href="#kontakt" style={{ display: "flex", justifyContent: "center", padding: 14, borderRadius: 28, fontSize: 14, fontWeight: p.hl ? 700 : 600, textDecoration: "none", background: p.hl ? C.blue : "transparent", color: p.hl ? "#fff" : C.blue, border: p.hl ? "none" : `2px solid ${C.blue}`, marginTop: "auto" }}>{p.cta}</a>
-            </div>
-          ))}
-        </div>
-        <p className="anim" style={{ fontSize: 13, color: "#B0B8B0" }}>Alle Pakete beinhalten kostenlose Installation und sind monatlich kündbar.</p>
-      </section>
-
-      {/* ── Testimonials ── */}
-      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,80px)", gap: 48, background: C.bg }}>
-        <div style={{ textAlign: "center" }}>
-          <h2 className="anim" style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, color: C.text, marginBottom: 12 }}>Was unsere Kunden sagen</h2>
-          <p className="anim delay-1" style={{ fontSize: 16, color: "#8A9B8A" }}>Menschen, die sich auf uns verlassen</p>
-        </div>
-        <div style={{ display: "flex", gap: 20, width: "100%", maxWidth: 1200, flexWrap: "wrap", justifyContent: "center" }}>
-          {[
-            { ini: "HM", name: "Hans M., 78", loc: "Konyaaltı", q: "\"Mit Notra 24 fühle ich mich nicht mehr allein — die sind wirklich immer da, auch nachts um 3 Uhr.\"", bg: C.blue },
-            { ini: "AY", name: "Ayşe Y., 71", loc: "Lara", q: "\"Benim kızım İstanbul'da yaşıyor. Notra 24 sayesinde güvende olduğumu biliyor. Çok teşekkürler!\"", bg: C.accent },
-            { ini: "MK", name: "Margaret K., 69", loc: "Belek", q: "\"The bracelet detected my fall automatically and Notra called me within seconds. Life-saving.\"", bg: C.blue },
-          ].map((t, i) => (
-            <div key={t.name} className={`anim delay-${i + 1} hover-lift`} style={{ flex: "1 1 300px", maxWidth: 400, display: "flex", flexDirection: "column", gap: 16, padding: "clamp(24px,3vw,32px)", background: "#fff", borderRadius: 24 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 44, height: 44, borderRadius: "50%", background: t.bg, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 14, fontWeight: 700, flexShrink: 0 }}>{t.ini}</div>
-                <div><div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{t.name}</div><div style={{ fontSize: 12, color: "#8A9B8A" }}>{t.loc}, Antalya</div></div>
-              </div>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7B6B" }}>{t.q}</p>
-              <div style={{ color: "#D4943A", fontSize: 14 }}>★★★★★</div>
+        <div style={{ display: "flex", gap: 20, width: "100%", maxWidth: 1320, flexWrap: "wrap", justifyContent: "center" }}>
+          {[{ n: "Safe Home", d: "Für Menschen, die überwiegend zuhause sind und auf Knopfdruck verbunden sein möchten.", f: ["Heimzentrale (4G + Stromausfall)", "Funk-Armband (wasserdicht)", "24/7 Leitstellen-Verbindung", "Installation vor Ort"], cta: "Mehr erfahren", hl: false }, { n: "Safe Life", d: "Voller Schutz — ob beim Einkaufen, im Park oder zuhause.", f: ["Alles aus Safe Home", "GPS-Armband mit eigener SIM", "Automatische Sturzerkennung", "GPS-Ortung bei Notfall", "Funktioniert überall in der Türkei"], cta: "Jetzt beraten lassen", hl: true }, { n: "Safe Home Plus", d: "Maximaler Schutz mit Sensoren für Rauch, CO und Türöffnungen.", f: ["Alles aus Safe Life", "Funk-Rauchmelder", "Funk-CO-Melder", "Türkontakt (Wohnungstür)"], cta: "Mehr erfahren", hl: false }].map((p, i) => (
+            <div key={p.n} className={`anim-scale d${i + 1} hover-up`} style={{ flex: "1 1 320px", maxWidth: 430, background: "#fff", borderRadius: 16, border: `1px solid ${p.hl ? K : "#E8E0D8"}`, padding: "clamp(24px,3vw,32px)", display: "flex", flexDirection: "column", gap: 20, position: "relative" }}>
+              {p.hl && <div style={{ position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)", background: K, color: "#fff", padding: "5px 16px", borderRadius: 16, fontSize: 11, fontWeight: 700 }}>Beliebteste Wahl</div>}
+              <h3 style={{ fontSize: 20, fontWeight: 700 }}>{p.n}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.5, color: "#888" }}>{p.d}</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>{p.f.map((x) => <div key={x} style={{ display: "flex", gap: 8, fontSize: 13 }}><span>•</span>{x}</div>)}</div>
+              <a href="#kontakt" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 20px", borderRadius: 24, fontSize: 13, fontWeight: 600, textDecoration: "none", background: p.hl ? K : "transparent", color: p.hl ? "#fff" : "#2D2D2D", border: p.hl ? "none" : "1px solid #E0D8CF", marginTop: "auto" }}>{p.cta} →</a>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Über uns ── */}
-      <section id="uberuns" style={{ display: "flex", alignItems: "center", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,120px)", gap: "clamp(24px,4vw,60px)", background: "#fff", flexWrap: "wrap" }}>
-        <div className="anim-left" style={{ flex: "1 1 400px" }}>
-          <h2 style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, color: C.text, marginBottom: 20 }}>Echte Menschen. Echte Fürsorge.</h2>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: "#6B7B6B", marginBottom: 16 }}>Notra 24 wurde gegründet, weil wir gesehen haben, wie viele ältere Menschen in Antalya allein leben. Wir haben eine professionelle Leitstelle nach dem Vorbild des Deutschen Roten Kreuzes aufgebaut.</p>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: "#6B7B6B", marginBottom: 24 }}>Keine Warteschleife, kein Anrufbeantworter — ein echter Mensch hebt ab.</p>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {[{ v: "24/7", l: "Erreichbar", c: C.blue }, { v: "4", l: "Sprachen", c: C.blue }, { v: "< 10s", l: "Reaktionszeit", c: C.blue }, { v: "Antalya", l: "Türkei", c: C.blue }].map((s, i, a) => (
-              <div key={s.l} className={`anim delay-${i + 1}`} style={{ flex: "1 1 100px", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: 16, borderRight: i < a.length - 1 ? "1px solid rgba(45,59,45,0.1)" : "none" }}>
-                <span style={{ fontSize: "clamp(24px,3vw,32px)", fontWeight: 800, color: s.c }}>{s.v}</span>
-                <span style={{ fontSize: 12, color: "#8A9B8A" }}>{s.l}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="anim-right" style={{ flex: "0 1 380px", height: 300, borderRadius: 24, overflow: "hidden", boxShadow: "0 4px 24px rgba(45,59,45,0.05)" }}>
-          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=760&h=600&fit=crop" alt="Leitstellen-Team" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,200px)", gap: 40, background: C.bg }}>
-        <h2 className="anim" style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, color: C.text }}>Häufige Fragen</h2>
-        <div style={{ display: "flex", flexDirection: "column", width: "100%", maxWidth: 800 }}>
-          {FAQs.map((faq, i) => (
-            <div key={i} className={`anim delay-${Math.min(i + 1, 4)}`} style={{ borderBottom: i < FAQs.length - 1 ? "1px solid rgba(45,59,45,0.1)" : "none" }}>
-              <button onClick={() => setOpenFaq(openFaq === i ? -1 : i)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "20px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>
-                <span style={{ fontSize: "clamp(14px,1.5vw,16px)", color: "#4A5B4A", textAlign: "left" }}>{faq.q}</span>
-                <span style={{ color: C.blue, fontSize: 20, flexShrink: 0, marginLeft: 16, transition: "transform .3s", transform: openFaq === i ? "rotate(45deg)" : "none" }}>+</span>
-              </button>
-              <div style={{ maxHeight: openFaq === i ? 200 : 0, overflow: "hidden", transition: "max-height .4s cubic-bezier(.16,1,.3,1)" }}>
-                <div style={{ paddingBottom: 20, fontSize: 14, lineHeight: 1.6, color: "#6B7B6B" }}>{faq.a}</div>
+      {/* Testimonials */}
+      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "clamp(40px,6vw,60px) clamp(20px,5vw,60px)", gap: 40 }}>
+        <h2 className="anim" style={{ fontFamily: "'Lora',serif", fontSize: "clamp(28px,4vw,40px)", fontWeight: 700 }}>Was unsere Kunden sagen</h2>
+        <div style={{ display: "flex", gap: 20, width: "100%", maxWidth: 1320, flexWrap: "wrap", justifyContent: "center" }}>
+          {[{ ini: "HM", n: "Hans M.", a: "78", q: "Seit meiner Frau nicht mehr da ist, lebe ich allein. Mit Notra 24 fühle ich mich nicht mehr allein — auch nachts um 3 Uhr.", bg: K }, { ini: "AY", n: "Ayse Y.", a: "71", q: "Benim kizim Istanbul da yasiyor. Notra 24 sayesinde kizim her zaman güvende oldugumu biliyor.", bg: "#C4725F" }, { ini: "MK", n: "Margaret K.", a: "69", q: "The bracelet detected my fall automatically and Notra called me within seconds. Life-saving.", bg: "#B85C3A" }].map((t, i) => (
+            <div key={t.n} className={`anim-scale d${i + 1} hover-up`} style={{ flex: "1 1 300px", maxWidth: 430, background: "#fff", borderRadius: 16, border: "1px solid #E8E0D8", padding: "clamp(24px,3vw,32px)", display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ color: K, fontSize: 14, letterSpacing: 2 }}>★★★★★</div>
+              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#555" }}>{`"${t.q}"`}</p>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "auto" }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: t.bg, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, fontWeight: 700 }}>{t.ini}</div>
+                <div><span style={{ fontSize: 14, fontWeight: 600 }}>{t.n},</span><span style={{ fontSize: 13, color: "#888", marginLeft: 4 }}>{t.a} ...</span></div>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Kontakt ── */}
-      <section id="kontakt" style={{ display: "flex", padding: "clamp(48px,8vw,80px) clamp(20px,5vw,120px)", gap: "clamp(24px,4vw,60px)", background: "#fff", flexWrap: "wrap" }}>
-        <div className="anim-left" style={{ flex: "1 1 300px" }}>
-          <h2 style={{ fontFamily: "'Lora', serif", fontSize: "clamp(28px, 3.5vw, 36px)", fontWeight: 700, color: C.text, marginBottom: 16 }}>Wir freuen uns auf Ihren Anruf.</h2>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: "#6B7B6B", marginBottom: 24 }}>Kein Druck, kein Verkaufsgespräch — wir beraten Sie ehrlich.</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}><span style={{ color: C.blue, fontWeight: 600, fontSize: 14 }}>+90 XXX XXX XX XX</span><span style={{ color: "#8A9B8A", fontSize: 12 }}>Mo-So, 24 Stunden</span></div>
-            <span style={{ color: "#4A5B4A", fontSize: 14 }}>info@notra24.com</span>
-            <span style={{ color: "#4A5B4A", fontSize: 14 }}>Antalya, Türkei</span>
+      {/* CTA + Footer */}
+      <section id="kontakt" style={{ padding: "clamp(20px,4vw,40px) clamp(20px,5vw,60px)" }}>
+        <div className="anim" style={{ background: K, borderRadius: 24, padding: "clamp(32px,5vw,60px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
+          <div style={{ flex: "1 1 300px" }}>
+            <h2 style={{ fontFamily: "'Lora',serif", fontSize: "clamp(24px,3.5vw,32px)", fontWeight: 700, color: "#fff", marginBottom: 12 }}>Wir freuen uns auf Ihren Anruf.</h2>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,.7)", marginBottom: 16 }}>Kein Druck, kein Verkaufsgespräch — wir beraten Sie ehrlich.</p>
+            <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}><span style={{ color: "#fff", fontSize: 14, fontWeight: 600 }}>+90 XXX XXX XX XX</span><span style={{ color: "rgba(255,255,255,.7)", fontSize: 14 }}>info@notra24.com</span></div>
           </div>
-        </div>
-        <div className="anim-right" style={{ flex: "1 1 340px", maxWidth: 500, background: C.bg, borderRadius: 24, padding: "clamp(20px,3vw,32px)", display: "flex", flexDirection: "column", gap: 14 }}>
-          {[{ l: "Name", p: "Ihr vollständiger Name", t: "text" }, { l: "Telefonnummer", p: "+90 ...", t: "tel" }].map(f => (
-            <div key={f.l} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <label style={{ fontSize: 13, color: "#6B7B6B" }}>{f.l}</label>
-              <input type={f.t} placeholder={f.p} style={{ background: "#fff", border: "1px solid rgba(45,59,45,0.12)", borderRadius: 12, padding: "12px 16px", fontSize: 14, color: "#4A5B4A", outline: "none", fontFamily: "'Nunito'" }} />
-            </div>
-          ))}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 13, color: "#6B7B6B" }}>Sprache</label>
-            <select style={{ background: "#fff", border: "1px solid rgba(45,59,45,0.12)", borderRadius: 12, padding: "12px 16px", fontSize: 14, color: "#4A5B4A", outline: "none", fontFamily: "'Nunito'" }}>
-              <option>Deutsch</option><option>Türkçe</option><option>English</option><option>Русский</option>
-            </select>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 13, color: "#6B7B6B" }}>Nachricht (optional)</label>
-            <textarea rows={3} placeholder="Ihre Nachricht..." style={{ background: "#fff", border: "1px solid rgba(45,59,45,0.12)", borderRadius: 12, padding: "12px 16px", fontSize: 14, color: "#4A5B4A", outline: "none", resize: "none", fontFamily: "'Nunito'" }} />
-          </div>
-          <button style={{ background: C.blue, color: "#fff", padding: 16, borderRadius: 28, fontSize: 15, fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "'Nunito'" }}>Rückruf anfragen</button>
+          <a href="tel:+90" style={{ background: "#fff", color: K, padding: "14px 32px", borderRadius: 28, fontSize: 15, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>Rückruf anfragen →</a>
         </div>
       </section>
-
-      {/* ── Footer ── */}
-      <footer style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "clamp(24px,4vw,40px) clamp(20px,5vw,120px)", background: "#1A3A52", flexWrap: "wrap", gap: 16 }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-            <Heart s={20} c="#E8793A" f="#E8793A" />
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>Notra 24</span>
-          </div>
-          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Ihr 24/7 Notdienst in Antalya</span>
-        </div>
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-          {["Pakete", "Über uns", "Kontakt", "Datenschutz"].map(l => <a key={l} href="#" style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>{l}</a>)}
-        </div>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>© 2025 Notra 24. Alle Rechte vorbehalten.</span>
+      <footer style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "clamp(20px,3vw,30px) clamp(20px,5vw,60px)", flexWrap: "wrap", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}><Heart s={16} /><span style={{ fontSize: 14, fontWeight: 700 }}>Notra 24</span></div>
+        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>{["Pakete", "Über uns", "Kontakt", "Datenschutz", "Impressum"].map((l) => <a key={l} href="#" style={{ fontSize: 13, color: "#888", textDecoration: "none" }}>{l}</a>)}</div>
+        <span style={{ fontSize: 12, color: "#aaa" }}>© 2025 Notra 24. Alle Rechte vorbehalten.</span>
       </footer>
     </div>
   );
